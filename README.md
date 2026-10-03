@@ -1,63 +1,215 @@
-# PocketAI
+# 🤖 PocketAI
 
-PocketAI is a Flutter AI agent app built as a portfolio project to demonstrate LLM integration and tool-calling patterns, alongside my e-commerce and utility app work (Inspire Uplift, Pocket Tools, Sneaker Shop).
+**PocketAI** is a Flutter-based AI assistant that provides conversational AI with built-in tools for **mathematical calculations** and **weather updates**.
 
-## What it does
-
-PocketAI is a chat interface backed by Google's Gemini API. When a user asks something that requires live data or computation, the model doesn't guess — it emits a structured tool call, which PocketAI intercepts, executes, and feeds back to the model for a natural final answer.
-
-Try:
-- "What's the weather in Lahore?"
-- "What's 45 * 12?"
-
-## Architecture
-
-- **State management:** `flutter_bloc` — classic Bloc pattern (`ChatEvent` → `ChatBloc` → `ChatState`), using `equatable` for state comparisons
-- **LLM:** Gemini API (`gemini-1.5-flash`, free tier)
-- **Tools:**
-  - Weather — Open-Meteo API (free, no API key)
-  - Calculator — `math_expressions` package (local, no network call)
-- **Responsive UI:** `flutter_screenutil`
-- **Agent loop:** `ChatBloc` sends the running conversation to Gemini. If the reply starts with `TOOL_CALL:weather:<city>` or `TOOL_CALL:calculate:<expr>`, the bloc parses it, runs the matching service, and sends the tool's result back to Gemini so it can phrase a natural response to the user.
-
-## Project structure
-
-```
-lib/
-  models/message_model.dart       # ChatMessage (user/ai sender)
-  services/gemini_service.dart    # Gemini API calls + tool-calling system prompt
-  services/weather_service.dart   # Open-Meteo geocode + current weather
-  services/calculator_service.dart# Safe local math expression evaluation
-  blocs/chat_event.dart           # SendMessageEvent
-  blocs/chat_state.dart           # messages, isLoading, error
-  blocs/chat_bloc.dart            # the agent loop
-  screens/chat_screen.dart        # chat bubble UI
-  main.dart                       # entry point, BlocProvider + ScreenUtilInit
-```
-
-## Setup
-
-1. Get a free Gemini API key at https://ai.google.dev
-2. Replace `YOUR_API_KEY_HERE` in `lib/services/gemini_service.dart`
-3. `flutter pub get`
-4. Run on a device or emulator
-
-## Known limitations
-
-- The Gemini API key is hardcoded in the client for this demo. **For a production app, never ship an API key in the client** — use a backend proxy or inject it as an environment variable at build time.
-- No conversation persistence yet (in-memory only, resets on app restart).
-- No response streaming yet — replies arrive as a single completion.
-
-## Stack
-
-| Layer | Choice | Why |
-|---|---|---|
-| LLM | Gemini 1.5 Flash | Free tier, fast |
-| Weather | Open-Meteo | Free, no key required |
-| Calculator | math_expressions | Local, no API cost |
-| State management | flutter_bloc | Predictable event → state flow, testable |
-| UI scaling | flutter_screenutil | Consistent responsive sizing |
+Built with **Flutter + Dart + BLoC state management**, PocketAI is designed with a clean, responsive, and modern chat interface.
 
 ---
 
-Built by Dev Junaid as part of a Flutter portfolio alongside Pocket Tools and Sneaker Shop.
+## ✨ Features
+
+* 🤖 AI-powered conversational chat
+* 🧮 Mathematical calculations
+* 🌤️ Weather updates
+* 💬 Interactive chat interface
+* 🌓 Light & Dark theme
+* 📱 Responsive Flutter UI
+* ⚡ Fast API-based responses
+* 🔐 Environment-based API configuration
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology             | Purpose                     |
+| :--------------------- | :-------------------------- |
+| **Flutter**            | Cross-platform UI framework |
+| **Dart**               | Programming language        |
+| **BLoC / Cubit**       | State management            |
+| **Gemini API**         | AI-powered responses        |
+| **HTTP**               | API communication           |
+| **Flutter ScreenUtil** | Responsive UI               |
+| **flutter_dotenv**     | Environment configuration   |
+
+### State Management
+
+PocketAI uses **BLoC/Cubit** for predictable and scalable state management.
+
+```text
+BLoC / Cubit
+├── ChatBloc
+└── ThemeCubit
+```
+
+---
+
+## 🏗️ Architecture
+
+The project follows a simple separation of responsibilities:
+
+```text
+lib/
+│
+├── blocs/
+│   ├── chat_bloc.dart
+│   ├── chat_event.dart
+│   ├── chat_state.dart
+│   └── theme_cubit.dart
+│
+├── models/
+│   └── message_model.dart
+│
+├── screens/
+│   └── chat_screen.dart
+│
+├── services/
+│   ├── calculator_service.dart
+│   ├── gemini_service.dart
+│   └── weather_service.dart
+│
+└── main.dart
+```
+
+---
+
+## 🧮 Calculator
+
+PocketAI can process mathematical questions and use its calculator functionality to calculate expressions.
+
+Example:
+
+```text
+What is 125 × 48?
+```
+
+---
+
+## 🌤️ Weather
+
+PocketAI can recognize weather-related questions and retrieve weather information for a requested location.
+
+Example:
+
+```text
+What's the weather in Lahore?
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have installed:
+
+* Flutter SDK
+* Dart SDK
+* Android Studio / Xcode
+* Git
+
+### Clone the repository
+
+```bash
+git clone https://github.com/Whoami-jj/pocket-ai.git
+cd pocket-ai
+```
+
+### Install dependencies
+
+```bash
+flutter pub get
+```
+
+---
+
+## 🔑 Environment Configuration
+
+Create a `.env` file in the project root:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+```
+
+The `.env` file is ignored by Git and should **never be committed**.
+
+> ⚠️ For production applications, API credentials should ideally be handled through a secure backend rather than embedded in a client application.
+
+---
+
+## ▶️ Run the App
+
+```bash
+flutter run
+```
+
+For web:
+
+```bash
+flutter run -d chrome
+```
+
+For Windows:
+
+```bash
+flutter run -d windows
+```
+
+---
+
+## 🧪 Testing
+
+Run tests:
+
+```bash
+flutter test
+```
+
+Run static analysis:
+
+```bash
+flutter analyze
+```
+
+---
+
+## 📱 Supported Platforms
+
+Flutter allows PocketAI to target:
+
+* Android
+* iOS
+* Web
+* Windows
+* macOS
+* Linux
+
+---
+
+## 📊 Project Status
+
+🚧 **Active Development**
+
+PocketAI is currently under development, with plans for additional AI capabilities, improvements, and tools.
+
+---
+
+## 🤝 Contributing
+
+Contributions and suggestions are welcome.
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Commit your changes
+5. Push the branch
+6. Open a Pull Request
+
+---
+
+## 📄 License
+
+License information will be added as the project develops.
+
+---
+
+### Built with ❤️ using Flutter & Dart
