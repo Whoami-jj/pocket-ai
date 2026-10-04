@@ -5,7 +5,6 @@ class ChatMessage {
   final Sender sender;
   final bool isError;
 
-  /// 'weather' or 'calculate' when a tool produced this reply.
   final String? tool;
   final DateTime createdAt;
 

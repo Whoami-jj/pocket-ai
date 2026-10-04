@@ -7,9 +7,9 @@ import '../models/message_model.dart';
 
 class GeminiService {
   static String get _apiKey => dotenv.env['GEMINI_API_KEY'] ?? '';
-
+  static const String _model = 'gemini-3.5-flash-lite';
   static const String _baseUrl =
-      'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent';
+      'https://generativelanguage.googleapis.com/v1beta/models/$_model:generateContent';
 
   static const String _systemInstruction = '''
 You are PocketAI, a helpful assistant with access to two tools:
@@ -57,8 +57,11 @@ Never explain that you are about to call a tool — just emit the TOOL_CALL line
     try {
       response = await http
           .post(
-            Uri.parse('$_baseUrl?key=$_apiKey'),
-            headers: {'Content-Type': 'application/json'},
+            Uri.parse(_baseUrl),
+            headers: {
+              'Content-Type': 'application/json',
+              'x-goog-api-key': _apiKey,
+            },
             body: jsonEncode(body),
           )
           .timeout(const Duration(seconds: 20));

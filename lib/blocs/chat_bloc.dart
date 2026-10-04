@@ -39,8 +39,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ClearAllChatsEvent>(_onClearAll);
   }
 
-  // ─── HISTORY ──────────────────────────────────────────────────────────────
-
   Future<void> _onLoad(LoadChatsEvent event, Emitter<ChatState> emit) async {
     final saved = await _storage.load();
     emit(state.copyWith(conversations: saved, loaded: true));
@@ -78,8 +76,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _persist();
   }
 
-  // ─── SENDING ──────────────────────────────────────────────────────────────
-
   Future<void> _onSendMessage(
     SendMessageEvent event,
     Emitter<ChatState> emit,
@@ -87,8 +83,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (state.isLoading) return;
 
     final userMessage = ChatMessage(text: event.text, sender: Sender.user);
-
-    // The first message of an empty chat creates the conversation.
     var conversations = state.conversations;
     var current = state.active;
     if (current == null) {
@@ -136,8 +130,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     }
   }
 
-  /// Adds the reply to the chat it belongs to, even if the user has since
-  /// opened another chat. If that chat was deleted meanwhile, it is a no-op.
   void _finish(
     Emitter<ChatState> emit,
     String id,
@@ -185,7 +177,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       toolResult = 'Tool error: $e';
     }
 
-    // Feed the tool result back to Gemini so it can phrase a natural reply.
     final followUpHistory = List<ChatMessage>.from(historySoFar)
       ..add(ChatMessage(
         text: 'Tool result: $toolResult\n\nPlease respond to the user '
@@ -197,9 +188,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     return (reply: reply, tool: toolName);
   }
 
-  // ─── HELPERS ──────────────────────────────────────────────────────────────
-
-  /// Applies [update] to one conversation, bumps its time and re-sorts.
   List<Conversation> _touch(
     List<Conversation> list,
     String id,
@@ -207,8 +195,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   ) {
     final now = DateTime.now();
     final result = [
-      for (final c in list)
-        c.id == id ? update(c).copyWith(updatedAt: now) : c,
+      for (final c in list) c.id == id ? update(c).copyWith(updatedAt: now) : c,
     ];
     result.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
     return result;

@@ -288,8 +288,7 @@ class _HistoryDrawerState extends State<HistoryDrawer> {
             body: '"${c.title}" will be permanently deleted.',
             action: 'Delete',
           ),
-          onSwiped: () =>
-              context.read<ChatBloc>().add(DeleteChatEvent(c.id)),
+          onSwiped: () => context.read<ChatBloc>().add(DeleteChatEvent(c.id)),
         );
       },
     );
@@ -390,8 +389,8 @@ class _ChatTile extends StatelessWidget {
               PopupMenuItem(
                 value: 'delete',
                 child: ListTile(
-                  leading: Icon(Icons.delete_outline_rounded,
-                      color: scheme.error),
+                  leading:
+                      Icon(Icons.delete_outline_rounded, color: scheme.error),
                   title: Text('Delete', style: TextStyle(color: scheme.error)),
                   contentPadding: EdgeInsets.zero,
                   dense: true,

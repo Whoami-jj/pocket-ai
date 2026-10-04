@@ -5,7 +5,6 @@ import '../models/conversation.dart';
 class ChatStorage {
   static const _key = 'pocketai_conversations_v1';
 
-  /// Oldest chats are dropped beyond this many.
   static const maxConversations = 50;
 
   Future<List<Conversation>> load() async {
@@ -19,7 +18,6 @@ class ChatStorage {
         ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
       return list;
     } catch (_) {
-      // Corrupted or unreadable data: start with an empty history.
       return [];
     }
   }
@@ -34,8 +32,6 @@ class ChatStorage {
         _key,
         jsonEncode(trimmed.map((c) => c.toJson()).toList()),
       );
-    } catch (_) {
-      // Saving is best-effort; the chat keeps working in memory.
-    }
+    } catch (_) {}
   }
 }

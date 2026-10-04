@@ -7,7 +7,6 @@ abstract class ChatEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Loads saved conversations from the device. Dispatch once on start-up.
 class LoadChatsEvent extends ChatEvent {
   const LoadChatsEvent();
 }
@@ -20,7 +19,6 @@ class SendMessageEvent extends ChatEvent {
   List<Object?> get props => [text];
 }
 
-/// Opens an empty chat. It is only saved once the first message is sent.
 class NewChatEvent extends ChatEvent {
   const NewChatEvent();
 }

@@ -51,7 +51,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    // Load saved chats from the device.
     context.read<ChatBloc>().add(const LoadChatsEvent());
   }
 
@@ -125,8 +124,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // ─── APP BAR ──────────────────────────────────────────────────────────────
-
   PreferredSizeWidget _buildAppBar(ColorScheme scheme, bool isDark) {
     return AppBar(
       titleSpacing: 4.w,
@@ -195,27 +192,21 @@ class _ChatScreenState extends State<ChatScreen> {
           icon: Icon(
             isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
           ),
-          onPressed: () => context
-              .read<ThemeCubit>()
-              .toggle(Theme.of(context).brightness),
+          onPressed: () =>
+              context.read<ThemeCubit>().toggle(Theme.of(context).brightness),
         ),
         SizedBox(width: 4.w),
       ],
     );
   }
 
-  // ─── MESSAGES ─────────────────────────────────────────────────────────────
-
   Widget _buildMessages(ColorScheme scheme) {
     return BlocConsumer<ChatBloc, ChatState>(
-      // Scroll when a message arrives or the typing indicator toggles,
-      // not only when the user sends.
       listenWhen: (p, c) =>
           p.activeId != c.activeId ||
           p.messages.length != c.messages.length ||
           p.isActiveLoading != c.isActiveLoading,
       listener: (_, state) {
-        // Jump (no animation) when switching to another chat.
         final switched = state.activeId != _lastActiveId;
         _lastActiveId = state.activeId;
         _scrollToEnd(jump: switched);
@@ -238,8 +229,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  // ─── COMPOSER ─────────────────────────────────────────────────────────────
-
   Widget _buildComposer(ColorScheme scheme) {
     return SafeArea(
       top: false,
@@ -256,7 +245,6 @@ class _ChatScreenState extends State<ChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
-                // Enter sends, Shift+Enter adds a new line (web / desktop).
                 child: CallbackShortcuts(
                   bindings: <ShortcutActivator, VoidCallback>{
                     const SingleActivator(LogicalKeyboardKey.enter): () =>
@@ -306,10 +294,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// WIDGETS
-// ─────────────────────────────────────────────────────────────────────────────
 
 class _GradientIcon extends StatelessWidget {
   final double size, radius, iconSize;
@@ -536,7 +520,6 @@ class _Bubble extends StatelessWidget {
   }
 }
 
-/// Shows which tool produced the answer — makes the tool calling visible.
 class _ToolBadge extends StatelessWidget {
   final String tool;
 
@@ -614,8 +597,8 @@ class _TypingBubbleState extends State<_TypingBubble>
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             decoration: BoxDecoration(
               color: scheme.surfaceContainerHigh,
-              border:
-                  Border.all(color: scheme.outlineVariant.withValues(alpha: 0.6)),
+              border: Border.all(
+                  color: scheme.outlineVariant.withValues(alpha: 0.6)),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(18.r),
                 topRight: Radius.circular(18.r),
@@ -685,7 +668,6 @@ class _SendButton extends StatelessWidget {
   }
 }
 
-/// Subtle fade + slide-up when a message first appears.
 class _Appear extends StatelessWidget {
   final Widget child;
 

@@ -15,7 +15,6 @@ class Conversation {
     required this.updatedAt,
   });
 
-  /// New conversation titled after its first message.
   factory Conversation.start(String firstUserText) {
     final now = DateTime.now();
     return Conversation(
@@ -64,7 +63,8 @@ class Conversation {
       id: json['id'] as String,
       title: json['title'] as String? ?? 'Chat',
       createdAt: created,
-      updatedAt: DateTime.tryParse(json['updatedAt'] as String? ?? '') ?? created,
+      updatedAt:
+          DateTime.tryParse(json['updatedAt'] as String? ?? '') ?? created,
       messages: (json['messages'] as List? ?? [])
           .map((m) => ChatMessage.fromJson(m as Map<String, dynamic>))
           .toList(),

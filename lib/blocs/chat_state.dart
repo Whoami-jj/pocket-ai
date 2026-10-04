@@ -3,16 +3,9 @@ import '../models/conversation.dart';
 import '../models/message_model.dart';
 
 class ChatState extends Equatable {
-  /// All saved chats, newest first.
   final List<Conversation> conversations;
-
-  /// The open chat. Null means an empty "new chat" that isn't saved yet.
   final String? activeId;
-
-  /// The chat currently waiting for a reply, if any.
   final String? loadingId;
-
-  /// True once saved chats have been read from the device.
   final bool loaded;
   final String? error;
 
@@ -32,11 +25,7 @@ class ChatState extends Equatable {
   }
 
   List<ChatMessage> get messages => active?.messages ?? const [];
-
-  /// Any chat waiting for a reply (used to block sending).
   bool get isLoading => loadingId != null;
-
-  /// The open chat is waiting for a reply (used for the typing indicator).
   bool get isActiveLoading => loadingId != null && loadingId == activeId;
 
   ChatState copyWith({
