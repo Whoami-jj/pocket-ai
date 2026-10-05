@@ -63,9 +63,9 @@ app.*.map.json
 
 # Ignore the downloaded Flutter SDK, but keep .fvmrc
 
-.fvm/flutter_sdk
-.fvm/versions/
-
 # Environment / secrets
 .env
 *.env
+
+# FVM Version Cache
+.fvm/
