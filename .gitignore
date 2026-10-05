@@ -1,36 +1,17 @@
-# Miscellaneous
-
+# OS / editors
+.DS_Store
+Thumbs.db
+*.iml
+*.ipr
+*.iws
+.idea/
 *.class
 *.log
 *.pyc
 *.swp
 *.swo
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history/
-.svn/
-.swiftpm/
-migrate_working_dir/
 
-# IntelliJ / Android Studio
-
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# VS Code
-
-# Uncomment if you do not want to commit VS Code settings
-
-# .vscode/
-
-# Flutter / Dart / Pub
-
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Flutter / Dart
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -38,34 +19,34 @@ migrate_working_dir/
 .pub/
 /build/
 /coverage/
-
-# Flutter generated files
-
-# Keep pubspec.lock for application projects
-
-# Keep .metadata and .fvmrc tracked
-
-# Symbolication
-
+**/doc/api/
 app.*.symbols
-
-# Obfuscation
-
 app.*.map.json
 
-# Android build artifacts
+# FVM: keep .fvmrc, ignore the local cache
+.fvm/
 
-/android/app/debug/
-/android/app/profile/
-/android/app/release/
+# Android: machine-specific and secrets
+**/android/local.properties
+**/android/.gradle/
+**/android/captures/
+**/android/key.properties
+*.jks
+*.keystore
 
-# FVM
+# iOS / macOS: generated on each machine
+**/ios/Pods/
+**/macos/Pods/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/ephemeral/
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/.last_build_id
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.*
+**/macos/Flutter/ephemeral/
+**/macos/Flutter/GeneratedPluginRegistrant.swift
+**/xcuserdata/
 
-# Ignore the downloaded Flutter SDK, but keep .fvmrc
-
-# Environment / secrets
+# Secrets
 .env
 *.env
-
-# FVM Version Cache
-.fvm/
